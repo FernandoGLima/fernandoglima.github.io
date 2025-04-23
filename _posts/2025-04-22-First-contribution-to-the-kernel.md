@@ -2,7 +2,7 @@
 title: First contribution to the kernel
 date: 2025-04-16 20:30:00 +/-0300
 categories: [Open Source Software Development, Kernel contributions]
-tags: [linux, kernel, kernel-linux, setup, ARM, boot, mac0470, floss, open-source, i2c, iio]
+tags: [linux, kernel, kernel-linux, setup, ARM, boot, mac0470, open-source, iio]
 ---
 
 Alongside [Octavio Carneiro](https://o-carneiro.github.io/) and Lucas Eiji, I have just sent my first contribution to the Linux Kernel, on the IIO Tree. The two modifications we made weren’t major, in fact, they were extremely simple and involved adding just a few lines of code. However, they might have a very very small impact, as they aim to avoid interleaving register reads/writes with buffered data capture.
