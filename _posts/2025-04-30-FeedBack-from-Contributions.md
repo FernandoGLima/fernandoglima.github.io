@@ -2,7 +2,7 @@
 title: Feedback on the Patches
 date: 2025-04-30 20:30:00 +/-0300
 categories: [Open Source Software Development, Kernel contributions]
-tags: [linux, kernel, kernel-linux, mac0470, open-source, iio]
+tags: [linux, kernel, kernel-linux, setup, ARM, boot, mac0470, open-source, iio]
 ---
 
 In the last post, we showed the small modifications made to a part of the code in the Linux kernel regarding buffer protection, aimed at preventing concurrent access to the device in different modes and avoiding corruption of the buffer data capture. We have now received feedback on both patchs.
