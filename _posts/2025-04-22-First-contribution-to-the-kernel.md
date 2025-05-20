@@ -12,7 +12,7 @@ Alongside [Octavio Carneiro](https://o-carneiro.github.io/) and Lucas Eiji, I ha
 Both contribution consists of adding the function iio_device_claim_direct() to be called in some cases, to prevent concurrent access of the device in differente modes. The sudden mode change can screw up the buffer data capture by injecting config bytes in the readings.
 This added function acts as some sort of “mutex” that locks the mode of the device and prevents this.
 
-Here’s an in-code example:
+Here’s an in-code example of the first change:
 
 ```c
 static int ad4000_write_raw_get_fmt(struct iio_dev *indio_dev,
@@ -20,7 +20,7 @@ static int ad4000_write_raw_get_fmt(struct iio_dev *indio_dev,
 {
 	switch (mask) {
 	case IIO_CHAN_INFO_SCALE:	
-		if (!iio_device_claim_direct(indio_dev))
+		if (!iio_device_claim_direct(indio_dev)) /*Part modified*/ 
 			return -EBUSY;
 		
 		iio_device_release_direct(indio_dev);
@@ -30,7 +30,29 @@ static int ad4000_write_raw_get_fmt(struct iio_dev *indio_dev,
 	}
 }
 ```
-The whoke patchest was basically this change in 2 more places: 
+
+Here’s the other change change:
+```c
+static int ads131e08_debugfs_reg_access(struct iio_dev *indio_dev,
+                                        bool readval, u8 reg, u8 writeval)
+{
+    struct ads131e08_state *st = iio_priv(indio_dev);
+
+    if (!iio_device_claim_direct(indio_dev))
+        return -EBUSY;
+
+    if (readval) {
+        int ret = ads131e08_read_reg(st, reg);
+        *readval = ret;
+        return ret;
+    }
+
+    iio_device_release_direct(indio_dev);
+    return ads131e08_write_reg(st, reg, writeval);
+}
+```
+
+The whole patchest was basically this change in 2 more places: 
  - In ad4000.c write_raw_get_fmt()
  - In ads131e08.c ads131e08_trigger_handler(), but we're not so sure about this change and still gonna talk with the TA.
 
