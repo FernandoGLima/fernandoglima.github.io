@@ -20,8 +20,64 @@ Each year, the Git team curates this page with very small projects, designed as 
 
 We chose to contribute to the "Fix Sign Comparison Warnings in Git’s Codebase" project, which simply involves adding certain types of casts, operations that convert a variable from one data type to another, in order to prevent unnecessary warnings. This not only helps in eliminating those warnings but also reduces the likelihood of potential bugs or errors.
 
+Here is an example of Comparison Warnings:
+
+![Comparation Warnings]({{ '/assets/img/2025-05-14-first-contribution-to-GIT/Warnings.png' | relative_url }})
+_Comparation Warnings_
+
 Here are the small changes that we made:
 
+```c
+void fmt_output_subject(struct strbuf *filename,
+ 442                         const char *subject,
+ 443                         struct rev_info *info)
+ 444 {
+ 445         const char *suffix = info->patch_suffix;
+ 446         int nr = info->nr;
+ 447         int start_len = filename->len;
+ 448         int max_len = start_len + info->patch_name_max - (strlen(suffix) + 1);
+ 449
+ 450         if (info->reroll_count) {
+ 451                 struct strbuf temp = STRBUF_INIT;
+ 452
+ 453                 strbuf_addf(&temp, "v%s", info->reroll_count);
+ 454                 format_sanitized_subject(filename, temp.buf, temp.len);
+ 455                 strbuf_addstr(filename, "-");
+ 456                 strbuf_release(&temp);
+ 457         }
+ 458         strbuf_addf(filename, "%04d-%s", nr, subject);
+ 459
+ 460         if (max_len < (int) filename->len) /*Here is the additonal cast*/
+ 461                 strbuf_setlen(filename, max_len);
+ 462         strbuf_addstr(filename, suffix);
+ 463 }
+```
+
+And the other change:
+
+```c
+static int add_ref_decoration(const char *refname, const char *referent UNUSED, const struct object_id *oid,
+ 150                               int flags UNUSED,
+ 151                               void *cb_data)
+ 152 {
+ 153
+ 183         for (i = 0; i < (int) ARRAY_SIZE(ref_namespace); i++) { /*Cast inside the for loop*/
+ 184                 struct ref_namespace_info *info = &ref_namespace[i];
+ 185
+ 186                 if (!info->decoration)
+ 187                         continue;
+ 188                 if (info->exact) {
+ 189                         if (!strcmp(refname, info->ref)) {
+ 190                                 deco_type = info->decoration;
+ 191                                 break;
+ 192                         }
+ 193                 } else if (starts_with(refname, info->ref)) {
+ 194                         deco_type = info->decoration;
+ 195                         break;
+ 196                 }
+ 197         }
+ 209 }
+```
 
 After our contributions to the Linux kernel were not accepted, we eagerly awaited the acceptance of these smaller contributions. However, we have not been completely defeated in our efforts with the Linux kernel. Since this modification is so minor, I felt compelled to try again to contribute to the Kernel, but this time focusing on refactoring duplicated code, with the goal of improving the overall quality and maintainability of the code.
 
