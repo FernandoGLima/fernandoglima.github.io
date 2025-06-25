@@ -51,7 +51,7 @@ After Peter’s simple yet effective idea, I just got straight to work. This par
 
 Once the changes were made, I compiled and ran the project to verify that everything was working correctly. After confirming the modification was successful, I tested it locally to ensure stability. Finally, I wrote the commit message and submitted the merge request for review.
 
-![Icon fixed]({{ '/assets/img/2025-06-25-First-contribution-to-gnome/Icon_fixed.png' | relative_url }})
+![Icon fixed]({{ '/assets/img/2025-06-25-First-contribution-to-gnome/Icon_fixed.jpg' | relative_url }})
 _Icon Fixed_
 
 Now, all that’s left is to wait for the commit feedback.
