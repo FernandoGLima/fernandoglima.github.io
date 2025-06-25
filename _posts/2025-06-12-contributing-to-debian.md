@@ -36,7 +36,7 @@ _Debian changelog_
 
 But we kind did something wrong. Instead of targeting the branch debian/experimental, we target master. But, Lucas Kanashiro come to rescue us and change the target. After that, our commits were merged and we made our first contribution!
 
-![debian MR]({{ '/assets/img/2025-06-12-contributing-to-debian/request.jpeg' | relative_url }})
+![debian MR]({{ '/assets/img/2025-06-12-contributing-to-debian/request.png' | relative_url }})
 _Debian merge request_
 
 > This post is to report our first contributions and interactions with Open Source Development, first started as an assignment on the [Open Source development class](https://uspdigital.usp.br/jupiterweb/obterDisciplina?sgldis=MAC0470&codcur=3122&codhab=5000), at the Institute of Mathematics and Statistics of the University of São Paulo, advised by professor [Paulo Meirelles](https://www.ime.usp.br/~paulormm/).
